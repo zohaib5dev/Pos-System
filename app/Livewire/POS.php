@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\PaymentMethod;
 use Illuminate\Support\Facades\Log;
 
-class POS extends Component
+class Pos extends Component
 {
     public $cart = [];
     public $customerId = null;
