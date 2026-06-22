@@ -157,7 +157,7 @@ class Form extends Component
             if ($this->productId) {
                 $product = Product::find($this->productId);
                 if ($product) {
-                    $product->image = null;
+                    $product->main_image = null;
                     $product->save();
                 }
             }
