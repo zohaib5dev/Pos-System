@@ -57,27 +57,7 @@ use App\Livewire\Setting\Index as SettingIndex;
 
 
 
-$installed = Storage::disk('public')->exists('installed');
-
-if ($installed === false) {
-    Route::get('/', function () {
-        return redirect('installer');
-    });
-
-    Route::prefix('installer')->name('installer.')->group(function () {
-        Route::get('/', [Installer::class, 'showApplicationSettings'])->name('applicationSettings');
-        Route::post('/application', [Installer::class, 'saveApplicationSettings'])->name('saveApplicationSettings');
-
-        Route::get('/database', [Installer::class, 'showDatabaseSettings'])->name('showDatabaseSettings');
-        Route::post('/database', [Installer::class, 'saveDatabaseSettings'])->name('saveDatabaseSettings');
-
-        Route::get('/review', [Installer::class, 'reviewSettings'])->name('reviewSettings');
-        Route::post('/finalize', [Installer::class, 'finalizeSetup'])->name('finalizeSetup');
-
-        Route::get('/generate-key', [Installer::class, 'generateAppKey'])->name('generateAppKey');
-    });
-}
-
+ 
 
 Route::middleware('auth')->group(function () {
     Route::view('profile', 'profile')->name('profile');
