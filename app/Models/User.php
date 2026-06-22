@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -34,6 +35,27 @@ class User extends Authenticatable
         'is_active' => 'boolean',
         'last_login_at' => 'datetime',
     ];
+
+      protected function createdAt(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                if (!$value) return null;
+                return \Carbon\Carbon::parse($value)->format(dateFormat() . ' ' . timeFormat());
+            },
+        );
+    }
+    
+    protected function updatedAt(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                if (!$value) return null;
+                return \Carbon\Carbon::parse($value)->format(dateFormat() . ' ' . timeFormat());
+            },
+        );
+    }
+
 
     // Relationships
     public function createdProducts()

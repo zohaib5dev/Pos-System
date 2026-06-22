@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
@@ -51,6 +52,26 @@ class Product extends Model
         'is_featured' => 'boolean',
     ];
 
+      protected function createdAt(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                if (!$value) return null;
+                return \Carbon\Carbon::parse($value)->format(dateFormat() . ' ' . timeFormat());
+            },
+        );
+    }
+    
+    protected function updatedAt(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                if (!$value) return null;
+                return \Carbon\Carbon::parse($value)->format(dateFormat() . ' ' . timeFormat());
+            },
+        );
+    }
+
     // Relationships
     public function category()
     {
@@ -65,16 +86,6 @@ class Product extends Model
     public function unit()
     {
         return $this->belongsTo(Unit::class);
-    }
-
-    public function variants()
-    {
-        return $this->hasMany(ProductVariant::class);
-    }
-
-    public function images()
-    {
-        return $this->hasMany(ProductImage::class);
     }
 
     public function creator()
@@ -92,10 +103,7 @@ class Product extends Model
         return $this->hasMany(PurchaseItem::class);
     }
 
-    public function stockMovements()
-    {
-        return $this->hasMany(StockMovement::class);
-    }
+   
 
     public function stockAdjustments()
     {

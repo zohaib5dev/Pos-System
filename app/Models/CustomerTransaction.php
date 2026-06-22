@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class CustomerTransaction extends Model
 {
@@ -26,6 +27,26 @@ class CustomerTransaction extends Model
         'previous_balance' => 'decimal:2',
         'new_balance' => 'decimal:2',
     ];
+
+      protected function createdAt(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                if (!$value) return null;
+                return \Carbon\Carbon::parse($value)->format(dateFormat() . ' ' . timeFormat());
+            },
+        );
+    }
+    
+    protected function updatedAt(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                if (!$value) return null;
+                return \Carbon\Carbon::parse($value)->format(dateFormat() . ' ' . timeFormat());
+            },
+        );
+    }
 
     // Relationships
     public function customer()

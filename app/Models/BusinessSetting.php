@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class BusinessSetting extends Model
@@ -26,6 +27,26 @@ class BusinessSetting extends Model
     ];
 
     protected $table = 'business_settings';
+
+      protected function createdAt(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                if (!$value) return null;
+                return \Carbon\Carbon::parse($value)->format(dateFormat() . ' ' . timeFormat());
+            },
+        );
+    }
+    
+    protected function updatedAt(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                if (!$value) return null;
+                return \Carbon\Carbon::parse($value)->format(dateFormat() . ' ' . timeFormat());
+            },
+        );
+    }
 
     // Singleton pattern - only one record
     public static function getSettings()

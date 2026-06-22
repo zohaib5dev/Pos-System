@@ -79,15 +79,35 @@ class Form extends Component
     {
         $this->purchase_date = now()->format('Y-m-d');
 
+         $productId = request()->query('product');
+
         if ($id) {
             $this->mode = 'edit';
             $this->purchaseId = $id;
             $this->loadPurchase();
         } else {
             $this->generatePurchaseNumber();
+             if ($productId) {
+                $this->addItem((int)$productId);
+                $this->dispatch('notify', [
+                    'message' => 'Product pre-loaded from stock alert',
+                    'type' => 'info'
+                ]);
+            }
         }
     }
 
+      public function openProductModal()
+    {
+        $this->showProductModal = true;
+        $this->productSearch = '';
+    }
+
+    public function closeProductModal()
+    {
+        $this->showProductModal = false;
+        $this->productSearch = '';
+    }
     public function generatePurchaseNumber()
     {
         $this->purchase_number = 'PO-' . date('Ymd') . '-' . str_pad(Purchase::count() + 1, 4, '0', STR_PAD_LEFT);
@@ -333,7 +353,7 @@ class Form extends Component
                 'other_cost' => $this->other_cost,
                 'total_amount' => $this->total_amount,
                 'paid_amount' => $this->paid_amount,
-                'notes' => $this->notes,
+                'notes' => $this->notes ?? null,
             ];
 
             if ($this->mode === 'edit') {

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class Purchase extends Model
@@ -43,6 +44,26 @@ class Purchase extends Model
         'total_amount' => 'decimal:2',
         'paid_amount' => 'decimal:2',
     ];
+
+      protected function createdAt(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                if (!$value) return null;
+                return \Carbon\Carbon::parse($value)->format(dateFormat() . ' ' . timeFormat());
+            },
+        );
+    }
+    
+    protected function updatedAt(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                if (!$value) return null;
+                return \Carbon\Carbon::parse($value)->format(dateFormat() . ' ' . timeFormat());
+            },
+        );
+    }
 
     // Relationships
     public function supplier()

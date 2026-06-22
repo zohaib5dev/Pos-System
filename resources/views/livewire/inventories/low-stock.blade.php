@@ -132,15 +132,15 @@
 
                         <div class="d-flex justify-content-end gap-1 pt-2 border-top">
                             <button wire:click="openAdjustmentModal({{ $product->id }})"
-                                class="btn btn-primary-soft text-primary btn-sm rounded-circle shadow-sm" title="Adjust Stock" style="width: 32px; height: 32px; padding: 0; font-size: 0.7rem;">
+                                class="btn btn-primary-soft text-primary btn-sm rounded-circle shadow-sm" title="Adjust Stock" >
                                 <i class="bi bi-arrow-repeat"></i>
                             </button>
                             <a href="{{ route('purchases.create', ['product' => $product->id]) }}"
-                                class="btn btn-success-soft text-success btn-sm rounded-circle shadow-sm" title="Reorder" style="width: 32px; height: 32px; padding: 0; font-size: 0.7rem;">
+                                class="btn btn-success-soft text-success btn-sm rounded-circle shadow-sm" title="Reorder" >
                                 <i class="bi bi-cart-plus"></i>
                             </a>
                             <a href="{{ route('products.actions', ['action' => 'show', 'id' => $product->id]) }}"
-                                class="btn btn-info-soft text-info btn-sm rounded-circle shadow-sm" title="View" style="width: 32px; height: 32px; padding: 0; font-size: 0.7rem;">
+                                class="btn btn-info-soft text-info btn-sm rounded-circle shadow-sm" title="View" >
                                 <i class="bi bi-eye"></i>
                             </a>
                         </div>
@@ -211,15 +211,15 @@
                             <td>
                                 <div class="d-flex justify-content-center gap-1">
                                     <button wire:click="openAdjustmentModal({{ $product->id }})"
-                                        class="btn btn-primary-soft text-primary btn-sm rounded-circle shadow-sm" title="Adjust Stock" style="width: 32px; height: 32px; padding: 0; font-size: 0.7rem;">
+                                        class="btn btn-primary-soft text-primary btn-sm rounded-circle shadow-sm" title="Adjust Stock" >
                                         <i class="bi bi-arrow-repeat"></i>
                                     </button>
                                     <a href="{{ route('purchases.create', ['product' => $product->id]) }}"
-                                        class="btn btn-success-soft text-success btn-sm rounded-circle shadow-sm" title="Reorder" style="width: 32px; height: 32px; padding: 0; font-size: 0.7rem;">
+                                        class="btn btn-success-soft text-success btn-sm rounded-circle shadow-sm" title="Reorder" >
                                         <i class="bi bi-cart-plus"></i>
                                     </a>
                                     <a href="{{ route('products.actions', ['action' => 'show', 'id' => $product->id]) }}"
-                                        class="btn btn-info-soft text-info btn-sm rounded-circle shadow-sm" title="View" style="width: 32px; height: 32px; padding: 0; font-size: 0.7rem;">
+                                        class="btn btn-info-soft text-info btn-sm rounded-circle shadow-sm" title="View" >
                                         <i class="bi bi-eye"></i>
                                     </a>
                                 </div>

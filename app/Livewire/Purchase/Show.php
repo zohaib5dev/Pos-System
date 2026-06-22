@@ -36,6 +36,7 @@ class Show extends Component
 
     protected $listeners = [
         'refreshComponent' => '$refresh',
+        'refreshPurchase' => 'loadPurchase',
     ];
 
     public function mount($id)
@@ -79,7 +80,7 @@ class Show extends Component
         }
     }
 
-   public function openPaymentModal($id)
+    public function openPaymentModal($id)
     {
         $this->paymentPurchaseId = $id;
         $purchase = Purchase::find($id);
@@ -107,13 +108,12 @@ class Show extends Component
         $this->showPaymentModal = true;
     }
 
-
     public function closePaymentModal()
     {
         $this->showPaymentModal = false;
         $this->reset(['paymentAmount', 'paymentMethod', 'paymentReference', 'paymentNotes']);
+        $this->dispatch('modalClosed');
     }
-
 
     public function processPayment()
     {
@@ -201,16 +201,21 @@ class Show extends Component
                 ]
             );
 
+            // Close modal and reset
             $this->showPaymentModal = false;
             $this->reset(['paymentAmount', 'paymentReference', 'paymentNotes', 'paymentPurchaseId']);
+            
+            // Refresh the purchase data
+            $this->loadPurchase();
 
             $this->dispatch('notify', [
                 'message' => 'Payment processed successfully',
                 'type' => 'success'
             ]);
 
-            $this->calculateStats();
-            $this->dispatch('refresh');
+            // Dispatch refresh event for any other components
+            $this->dispatch('refreshComponent');
+            $this->dispatch('paymentProcessed');
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -228,7 +233,6 @@ class Show extends Component
     {
         $method = PaymentMethod::where('slug', $methodName)->first();
         if (!$method) {
-            // Create default payment method if not exists
             $method = PaymentMethod::create([
                 'name' => ucfirst(str_replace('-', ' ', $methodName)),
                 'slug' => $methodName,
